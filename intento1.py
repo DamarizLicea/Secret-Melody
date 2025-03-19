@@ -1,15 +1,15 @@
-from music21 import stream, note, midi
+from music21 import stream, note
 
 # 19 notas musicales para base 19
 NOTAS_BASE_19 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 
                  'A#', 'C#', 'D#', 'F#', 'G#', 
                  'a', 'b', 'c', 'd', 'e', 'f', 'g']
 
-LIMITE_CARACTERES = 50 
+LIMITE_CARACTERES = 50
 
 def texto_a_melodia(texto):
     """Convierte un mensaje en una melodía usando base 19."""
-    ascii_values = [ord(c) for c in texto]  # Obtener valores ASCII
+    ascii_values = [ord(c) for c in texto]  # Convertir cada carácter a su valor ASCII
     notas_melodia = []
     
     for val in ascii_values:
@@ -17,6 +17,8 @@ def texto_a_melodia(texto):
         while val > 0:
             notas.append(NOTAS_BASE_19[val % 19])
             val //= 19
+        while len(notas) < 2:  # Cada valor ASCII tiene al menos 2 notas
+            notas.insert(0, NOTAS_BASE_19[0])  # SINO, se rellena con la nota 'A'
         notas.reverse()
         notas_melodia.extend(notas)
     
@@ -40,23 +42,22 @@ def melodia_a_texto(notas):
     mensaje_recuperado = ""
     while valores_base19:
         valor_ascii = 0
-        for v in valores_base19[:]:
-            valor_ascii = valor_ascii * 19 + v
-            valores_base19.pop(0)
-            if valor_ascii >= 0: 
+        while valores_base19:  
+            valor_ascii = valor_ascii * 19 + valores_base19.pop(0)
+            if 32 <= valor_ascii <= 126:  # Rango de ASCII
                 mensaje_recuperado += chr(valor_ascii)
                 break
 
     return mensaje_recuperado
 
-# Menu de acciones
+# Menú de acciones para el usuario
 opcion = input("¿Quieres (1) Codificar o (2) Decodificar?: ")
 
 if opcion == "1":
-    mensaje = input(f"Ingresa el mensaje secreto (máx {LIMITE_CARACTERES} caracteres): ").strip()
+    mensaje = input(f"Ingresa el mensaje secreto (max {LIMITE_CARACTERES} caracteres): ").strip()
     
     if len(mensaje) > LIMITE_CARACTERES:
-        print(f"Error: El mensaje es demasiado largo (máx {LIMITE_CARACTERES} caracteres).")
+        print(f"Error: El mensaje es demasiado largo (max {LIMITE_CARACTERES} caracteres).")
     else:
         notas_melodia = texto_a_melodia(mensaje)
         print("Notas generadas:", notas_melodia)
