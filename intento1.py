@@ -14,16 +14,14 @@ def generar_reorganizacion(clave):
     Genera una reorganización de las notas basada en la clave proporcionada.
     La misma clave siempre producirá la misma reorganización.
     """
-    # Usamos hashlib para generar un hash único para la clave
     hash_clave = hashlib.sha256(clave.encode()).digest()
-    # Convertimos el hash a un valor numérico para usar como semilla
+    
+    #Esto si me lo dio chat porque no sabia como hacerlo # que viva copilot
     seed = int.from_bytes(hash_clave, byteorder='big') % (2**32)
     
     # Creamos una copia de las notas originales
     notas_reorganizadas = NOTAS_BASE_19_ORIGINAL.copy()
-    
-    # Usamos la semilla para asegurar que la misma clave produzca siempre
-    # la misma reorganización
+
     random.seed(seed)
     random.shuffle(notas_reorganizadas)
     
@@ -31,7 +29,6 @@ def generar_reorganizacion(clave):
 
 def texto_a_melodia(texto, clave):
     """Convierte un mensaje en una melodía usando base 19 con una clave personalizada."""
-    # Obtenemos la reorganización de notas basada en la clave
     notas_base_19 = generar_reorganizacion(clave)
     
     ascii_values = [ord(c) for c in texto]  # Convertir cada carácter a su valor ASCII
