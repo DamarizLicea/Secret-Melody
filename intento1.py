@@ -1,6 +1,8 @@
 from music21 import stream, note
 import hashlib
 import random
+from pygame import mixer
+import time
 
 # 19 notas musicales para base 19
 NOTAS_BASE_19_ORIGINAL = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 
@@ -95,6 +97,19 @@ def mostrar_info_clave(clave):
         print(f"{i}: {nota}")
     print()
 
+
+def reproducir_melodia(melodia):
+    """Reproduce la melodía generada con las notas."""
+    mixer.init()
+    mixer.music.load(melodia)
+    mixer.music.play()
+    print("Reproduciendo melodía...")
+    while mixer.music.get_busy():
+        time.sleep(0.1)
+    print("Melodía finalizada.")
+    
+
+
 # Menú de acciones para el usuario
 def menu_principal():
     print("\n===== CIFRADO MUSICAL CON CLAVE =====")
@@ -130,6 +145,7 @@ if __name__ == "__main__":
                     if not nombre_archivo:
                         nombre_archivo = "melodia.mid"
                     generar_midi(notas_melodia, nombre_archivo)
+                    reproducir_melodia(nombre_archivo)
         
         elif opcion == "2":
             notas_input = input("Ingresa la lista de notas separadas por espacio: ").strip().split()

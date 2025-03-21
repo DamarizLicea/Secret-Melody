@@ -1,0 +1,31 @@
+<div class="option-menu">
+  <h1>Seleccione una opción</h1>
+  <button class="option" (click)="seleccionarModo('codificar')">Codificar</button>
+  <button class="option" (click)="seleccionarModo('decodificar')">Decodificar</button>
+</div>
+
+<div class="container-form" *ngIf="modo">
+  <div *ngIf="modo === 'codificar'">
+    <h2> Ingresa el mensaje a cifrar: </h2>
+    <input type="text" placeholder="Escribe tu mensaje" />
+    <h2> Ingresa la clave: </h2>
+    <input type="text" placeholder="Ingresa tu clave" />
+    <button>Cifrar</button>
+    <h2> Mensaje cifrado: </h2>
+    <p> A B C D G A a c C# a</p>
+    <div>
+      <h2>Reproducir MIDI:</h2>
+      <audio controls></audio>
+    </div>
+  </div>
+
+  <div *ngIf="modo === 'decodificar'">
+    <h2> Ingresa el mensaje a descifrar: </h2>
+    <input type="text" placeholder="Escribe tu mensaje" />
+    <h2> Ingresa la clave: </h2>
+    <input type="text" placeholder="Ingresa tu clave" />
+    <button>Descifrar</button>
+    <h2> Mensaje descifrado: </h2>
+    <p> A B C D G A a c C# a</p>
+  </div>
+</div>
